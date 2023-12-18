@@ -33,12 +33,11 @@ For CelebA HQ (256), please check out [here](https://github.com/NVlabs/NVAE#set-
 Once a dataset is downloaded, please put it in `exp/data/` directory as follows:
 ```
 exp/data/
-├── STL-10
+├── cifar10
 ├── celeba
-├── celeba_512
-├── celeba_1024
-├── cifar-10
-└── lsun
+├── celebahq
+├── ffhq64
+├── afhq
 ```
 
 ## How to run ##
@@ -54,6 +53,9 @@ where:
 - `<K>`: the number of consecutive steps (K in the paper) (e.g. 2, 3, 4).
 - `<lamda>`: the coefficient of SA loss (e.g. 0.2, 0.5).
 - `<#GPUS>`: the number of gpus (e.g. 1, 2, 4, 8).
+
+## Results ##
+Avaiable soon!
 
 ## Evaluation ##
 ### FID ###
