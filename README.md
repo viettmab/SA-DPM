@@ -28,11 +28,15 @@ We trained on four datasets, including CIFAR10, CelebA 64, FFHQ 64, AFHQ 64 and 
 
 For CIFAR10, they will be automatically downloaded in the first time execution. 
 
-For CelebA HQ (256), please check out [here](https://github.com/NVlabs/NVAE#set-up-file-paths-and-data) for dataset preparation.
+For FFHQ 64 and AFHQ 64, please download files [here](https://drive.google.com/drive/folders/1QvhF8wfPtnoZY8YMGGEdRlNDUhb0kV3E)
+
+For CelebA 64, please check out [here](https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) for dataset preparation.
+
+For CelebA HQ 256, please check out [here](https://github.com/NVlabs/NVAE#set-up-file-paths-and-data) for dataset preparation.
 
 Once a dataset is downloaded, please put it in `exp/data/` directory as follows:
 ```
-exp/data/
+exp/datasets/
 ├── cifar10
 ├── celeba
 ├── celebahq
