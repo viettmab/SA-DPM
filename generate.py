@@ -4,11 +4,10 @@ import numpy as np
 import os
 import torch.nn as nn
 import yaml
-import glob
 import tqdm
 from torch.multiprocessing import Process
 import torch.distributed as dist
-from datasets import data_transform, inverse_data_transform
+from datasets import inverse_data_transform
 from models.diffusion import Model
 from pytorch_fid import fid_score
 import re

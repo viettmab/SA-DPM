@@ -17,10 +17,10 @@ import time
 from torch.multiprocessing import Process
 import torch.distributed as dist
 import shutil
-from datasets import get_dataset, data_transform, inverse_data_transform
+from datasets import get_dataset, data_transform
 from functions import get_optimizer
 from models.diffusion import Model
-from functions.losses import loss_registry
+from functions.losses import sequence_aware_loss
 from ema import EMA
 
 def init_processes(rank, size, fn, args, config):
@@ -150,12 +150,7 @@ def train(rank, gpu, args, config):
                 low=0, high=num_timesteps, size=(n // 2 + 1,)
             ).to(device)
             t = torch.cat([t, num_timesteps - t - 1], dim=0)[:n]
-            if config.model.type == "simple":
-                loss = loss_registry[config.model.type](model, x, t, e, b)
-            elif config.model.type == "sa":
-                loss = loss_registry[config.model.type](model, x, t, e, b, args.num_consecutive_steps, args.lamda)
-            else:
-                raise NotImplementedError("Loss type is not defined")
+            loss = sequence_aware_loss(model, x, t, e, b, args.num_consecutive_steps, args.lamda)
 
             if rank == 0:
                 logging.info(
@@ -242,7 +237,7 @@ if __name__ == '__main__':
         action="store_true",
         help="No interaction. Suitable for Slurm Job launcher",
     )
-    parser.add_argument("--lamda", type=float, default=1., help="lambda coef of SA loss")
+    parser.add_argument("--lamda", type=float, default=1., help="lambda coef of SA loss (0 if vanilla DPM)")
     parser.add_argument("--num_consecutive_steps", type=int, default=2, help="number of consecutive steps in SA loss")
 
     args = parser.parse_args()

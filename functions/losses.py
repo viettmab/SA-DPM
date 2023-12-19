@@ -1,18 +1,5 @@
 import torch
 
-def noise_estimation_loss(model,
-                          x0: torch.Tensor,
-                          t: torch.LongTensor,
-                          e: torch.Tensor,
-                          b: torch.Tensor, keepdim=False):
-    a = (1-b).cumprod(dim=0).index_select(0, t).view(-1, 1, 1, 1)
-    x = x0 * a.sqrt() + e * (1.0 - a).sqrt()
-    output = model(x, t.float())
-    if keepdim:
-        return (e - output).square().sum(dim=(1, 2, 3))
-    else:
-        return (e - output).square().sum(dim=(1, 2, 3)).mean(dim=0)
-    
 def calculate_alpha(beta):
     alphas_cumprod = (1 - beta).cumprod(dim=0)
     alphas_cumprod_prev = torch.cat([torch.ones(1).to(alphas_cumprod.device), alphas_cumprod[:-1]], dim=0)
@@ -32,25 +19,28 @@ def sequence_aware_loss(model,
                     x0: torch.Tensor,
                     t: torch.LongTensor,
                     e: torch.Tensor,
-                    b: torch.Tensor, num_consecutive_steps=2, lamda=0.1, keepdim=False):
+                    b: torch.Tensor, num_consecutive_steps=2, lamda=1):
     coef = calculate_alpha(b)
     at_bar = extract_into_tensor(coef["alphas_cumprod"],t)
     xt = x0 * torch.sqrt(at_bar) + e * torch.sqrt(1.0 - at_bar)
     eps_prediction = model(xt, t.float())
     mse = (e - eps_prediction).square().sum(dim=(1, 2, 3)).mean(dim=0)
-    sa_loss = e - eps_prediction
-    t_k = t
-    for k in range(1,num_consecutive_steps):
-        at_bar_prev_k = extract_into_tensor(coef["alphas_cumprod_prev"],t_k)
-        e_k = torch.randn_like(e)
-        xt_k = x0 * torch.sqrt(at_bar_prev_k) + e_k * torch.sqrt(1.0 - at_bar_prev_k)
-        mask_k = (t >= k).float().unsqueeze(-1).unsqueeze(-1).unsqueeze(-1)
-        t_k = torch.clamp(t - k, min=0)
-        eps_prediction_k = model(xt_k, t_k.float())
-        sa_loss += (e_k - eps_prediction_k)*mask_k
-    sa_loss = 1/num_consecutive_steps * sa_loss.square().sum(dim=(1, 2, 3)).mean(dim=0)
-    total_loss = mse + lamda * sa_loss
-    return total_loss
+    if lamda == 0: # Vanilla DPM
+        return mse
+    else: # SA-DPM
+        sa_loss = e - eps_prediction
+        t_k = t
+        for k in range(1,num_consecutive_steps):
+            at_bar_prev_k = extract_into_tensor(coef["alphas_cumprod_prev"],t_k)
+            e_k = torch.randn_like(e)
+            xt_k = x0 * torch.sqrt(at_bar_prev_k) + e_k * torch.sqrt(1.0 - at_bar_prev_k)
+            mask_k = (t >= k).float().unsqueeze(-1).unsqueeze(-1).unsqueeze(-1)
+            t_k = torch.clamp(t - k, min=0)
+            eps_prediction_k = model(xt_k, t_k.float())
+            sa_loss += (e_k - eps_prediction_k)*mask_k
+        sa_loss = 1/(num_consecutive_steps**2) * sa_loss.square().sum(dim=(1, 2, 3)).mean(dim=0)
+        total_loss = mse + lamda * sa_loss
+        return total_loss
 
 def get_loss_value(model,
                     x0: torch.Tensor,
@@ -89,7 +79,6 @@ def get_loss_value(model,
     return dic
 
 loss_registry = {
-    'simple': noise_estimation_loss,
     'sa': sequence_aware_loss,
     "get_loss_value": get_loss_value,
 }
