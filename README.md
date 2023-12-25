@@ -93,6 +93,8 @@ CelebA-HQ 256x256 with the SA_DPM loss [[checkpoint](https://drive.google.com/dr
 python train_ddp.py --config celebahq.yml --doc celebahq_sa --ni --num_consecutive_steps 2 --lamda 0.1 --num_process_per_node 4
 ```
 
+Downloaded pre-trained models should be put in should be put in `exp/logs/<MODEL_NAME>` (e.g. `<MODEL_NAME>`:  celeba_sa, afhq_simple, ...)
+
 ## Evaluation ##
 ### FID ###
 ```
