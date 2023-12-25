@@ -2,3 +2,4 @@
 __pycache__/
 bash_scripts/
 exp/
+*.pth

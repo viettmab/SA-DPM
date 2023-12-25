@@ -10,7 +10,6 @@ data:
     num_workers: 32
 
 model:
-    type: "train2steps"
     in_channels: 3
     out_ch: 3
     ch: 128

@@ -10,7 +10,6 @@ data:
     num_workers: 4
 
 model:
-    type: "sa"
     in_channels: 3
     out_ch: 3
     ch: 128
@@ -40,13 +39,6 @@ sampling:
     batch_size: 500
     last_only: True
 
-# optim:
-#     weight_decay: 0.03
-#     optimizer: "AdamW"
-#     lr: 0.0002
-#     beta1: 0.99
-#     beta2: 0.999
-#     grad_clip: 1.0
 optim:
     weight_decay: 0.000
     optimizer: "Adam"
