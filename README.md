@@ -58,37 +58,37 @@ where:
 
 ## Models and Hyperparameters ##
 
-CelebA 64x64 with the SA_DPM loss [checkpoint](https://drive.google.com/drive/folders/1L-2EPsD5cZ07XA55ke1gzx38NLOSoOyF)
+CelebA 64x64 with the SA_DPM loss [[checkpoint](https://drive.google.com/drive/folders/1L-2EPsD5cZ07XA55ke1gzx38NLOSoOyF)]
 ```bash
 python train_ddp.py --config celeba.yml --doc celeba_sa --ni --num_consecutive_steps 2 --lamda 1 --num_process_per_node 4
 ```
 
-AFHQv2 64x64 with the base loss [checkpoint](https://drive.google.com/drive/folders/1P85qx4PjhDbN10ke2OeJeZlTH4Ls6AFn)
+AFHQv2 64x64 with the base loss [[checkpoint](https://drive.google.com/drive/folders/1P85qx4PjhDbN10ke2OeJeZlTH4Ls6AFn)]
 ```bash
 python train_ddp.py --config afhq.yml --doc afhq_simple --ni --num_consecutive_steps 0 --lamda 0 --num_process_per_node 4
 ```
 
-AFHQv2 64x64 with the SA_DPM loss [checkpoint](https://drive.google.com/drive/folders/1Tj0HiA0qBJ3k5_ot2FI9jBPK75oJdcty)
+AFHQv2 64x64 with the SA_DPM loss [[checkpoint](https://drive.google.com/drive/folders/1Tj0HiA0qBJ3k5_ot2FI9jBPK75oJdcty)]
 ```bash
 python train_ddp.py --config afhq.yml --doc afhq_sa --ni --num_consecutive_steps 2 --lamda 0.2 --num_process_per_node 4
 ```
 
-FFHQ 64x64 with the base loss [checkpoint](https://drive.google.com/drive/folders/1V2s3MFXgT4kVsZMjrtmiKBnZ2ALKePkz)
+FFHQ 64x64 with the base loss [[checkpoint](https://drive.google.com/drive/folders/1V2s3MFXgT4kVsZMjrtmiKBnZ2ALKePkz)]
 ```bash
 python train_ddp.py --config ffhq64.yml --doc ffhq_simple --ni --num_consecutive_steps 0 --lamda 0 --num_process_per_node 4
 ```
 
-FFHQ 64x64 with the SA_DPM loss [checkpoint](https://drive.google.com/drive/folders/1ET8SXPBh-3OPk3oOEPMhimqce4M2KKxk)
+FFHQ 64x64 with the SA_DPM loss [[checkpoint](https://drive.google.com/drive/folders/1ET8SXPBh-3OPk3oOEPMhimqce4M2KKxk)]
 ```bash
 python train_ddp.py --config ffhq64.yml --doc ffhq_sa --ni --num_consecutive_steps 2 --lamda 0.5 --num_process_per_node 4
 ```
 
-CelebA-HQ 256x256 with the base loss [checkpoint](https://drive.google.com/drive/folders/15T9CvC1rfok1ky4m7LZiI0qQvm5ARw8W)
+CelebA-HQ 256x256 with the base loss [[checkpoint](https://drive.google.com/drive/folders/15T9CvC1rfok1ky4m7LZiI0qQvm5ARw8W)]
 ```bash
 python train_ddp.py --config celebahq.yml --doc celebahq_simple --ni --num_consecutive_steps 0 --lamda 0 --num_process_per_node 4
 ```
 
-CelebA-HQ 256x256 with the SA_DPM loss [checkpoint](https://drive.google.com/drive/folders/1Ce9TFx4lb57eyY121Y4-aIfx-3xZ2bah)
+CelebA-HQ 256x256 with the SA_DPM loss [[checkpoint](https://drive.google.com/drive/folders/1Ce9TFx4lb57eyY121Y4-aIfx-3xZ2bah)]
 ```bash
 python train_ddp.py --config celebahq.yml --doc celebahq_sa --ni --num_consecutive_steps 2 --lamda 0.1 --num_process_per_node 4
 ```
