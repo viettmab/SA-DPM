@@ -42,6 +42,8 @@ exp/datasets/
 ├── afhq
 ```
 
+For FID score statistics of the datasets, please download files [here](https://drive.google.com/drive/folders/1_T6Sp1rC8LqqOjhMo9uDX2KHg6beWcBQ) and put it in `pytorch_fid/` directory
+
 ## How to run ##
 We provide a bash script for our experiments on different datasets. The syntax is following:
 ```
